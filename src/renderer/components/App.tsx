@@ -1,13 +1,14 @@
 import React from "react";
+import Sidebar from "./Sidebar";
+import MainView from "./MainView";
+
 
 function App() {
     return (
-        <button
-            onClick={() => window.api.saveBookmark("bookmark")}
-            className="bg-sky-300"
-        >
-            Click me!
-        </button>
+        <main>
+            <Sidebar />
+            <MainView />
+        </main>
     );
 }
 

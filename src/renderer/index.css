@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+  .btn {
+    @apply px-2 py-1 bg-rose-400 text-white rounded hover:bg-rose-600;
+  }
+
+}

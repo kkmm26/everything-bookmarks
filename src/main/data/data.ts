@@ -1,5 +1,4 @@
 import path from "path";
-import knex from "knex";
 import { app } from "electron";
 import { Sequelize } from "sequelize";
 

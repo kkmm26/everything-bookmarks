@@ -2,7 +2,11 @@
 export default {
     content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
     theme: {
-        extend: {},
+        extend: {
+            fontSize: {
+                'fluid': 'max(min(3vw, 16px), 12px)'
+            }
+        },
     },
     plugins: [],
 };
