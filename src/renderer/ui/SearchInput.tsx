@@ -4,10 +4,10 @@ import { Search } from "react-feather";
 
 function SearchInput() {
     return (
-        <div className="relative">
+        <div className="relative ml-2">
             <Search className="absolute left-1 opacity-30 top-[50%] translate-y-[-50%] size-[20px]" />
             <Input
-                placeholder="Search folder"
+                placeholder="Search Everything"
                 slotProps={{
                     root: { className: "flex-2" },
                     input: {

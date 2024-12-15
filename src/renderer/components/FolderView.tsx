@@ -44,6 +44,11 @@ const MUI_X_PRODUCTS = [
         label: "Tree View",
         children: [{ id: "tree-view-community", label: "@mui/x-tree-view" }],
     },
+    {
+        id: "123",
+        label: "New Folder",
+        children: []
+    }
 ];
 
 
@@ -97,6 +102,7 @@ export default function FolderView() {
                 item: CustomTreeItem,
                 expandIcon: Folder,
                 collapseIcon: Folder,
+                endIcon: Folder
             }}
         />
     );

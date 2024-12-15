@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import { saveBookmark } from "./data/data";
+import { getAllBookmarks, saveBookmark } from "./data/models/bookmarks";
+import { createFolder, getAllFolders } from "./data/models/folders";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -35,6 +36,25 @@ app.on("activate", () => {
     }
 });
 
-ipcMain.on("save-bookmark", async (_, title: string) => {
-    await saveBookmark(title);
+ipcMain.on("save-bookmark", async () => {
+    await saveBookmark("testing title", "testing url").then((bookmark) => {
+        console.log("bookmark saved!", bookmark);
+    });
+});
+ipcMain.on("get-all-bookmarks", async () => {
+    await getAllBookmarks().then((bookmarks) => {
+        console.log("bookmarks fetched!", bookmarks);
+        console.log(JSON.stringify(bookmarks, null, 2));
+    });
+});
+ipcMain.on("create-folder", async (_, name: string, parentFolderId: number) => {
+    await createFolder(name, parentFolderId).then((folder) => {
+        console.log("bookmark created!", folder);
+    });
+});
+ipcMain.on("get-all-folders", async () => {
+    await getAllFolders().then((folders) => {
+        console.log("folders fetched!", folders);
+        console.log(JSON.stringify(folders, null, 2));
+    });
 });
