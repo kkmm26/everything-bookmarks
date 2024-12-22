@@ -47,10 +47,9 @@ const MUI_X_PRODUCTS = [
     {
         id: "123",
         label: "New Folder",
-        children: []
-    }
+        children: [],
+    },
 ];
-
 
 function CustomLabel({ children, className, numberOfChildren }: any) {
     return (
@@ -74,7 +73,7 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
     props: any,
     ref
 ) {
-    const {  publicAPI } = useTreeItem2(props);
+    const { publicAPI } = useTreeItem2(props);
 
     const childrenNumber = publicAPI.getItemOrderedChildrenIds(
         props.itemId
@@ -94,15 +93,33 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
     );
 });
 
+function transformFolders(folders) {
+    return folders.map((folder) => ({
+        id: folder.folderId,
+        label: folder.name,
+    }));
+}
+
 export default function FolderView() {
+    const [items, setItems] = React.useState([]);
+
+    React.useEffect(() => {
+        async function fetchFolders() {
+            const res = await window.api.getAllFoldersWithBookmarks();
+            const data = JSON.parse(res);
+            console.log(transformFolders(data));
+            setItems(transformFolders(data))
+        }
+        fetchFolders();
+    }, []);
     return (
         <RichTreeView
-            items={MUI_X_PRODUCTS}
+            items={items}
             slots={{
                 item: CustomTreeItem,
                 expandIcon: Folder,
                 collapseIcon: Folder,
-                endIcon: Folder
+                endIcon: Folder,
             }}
         />
     );

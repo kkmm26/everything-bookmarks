@@ -1,6 +1,9 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { getAllBookmarks, saveBookmark } from "./data/models/bookmarks";
-import { createFolder, getAllFolders } from "./data/models/folders";
+import {
+    createFolder,
+    getAllFoldersWithBookmarks,
+} from "./data/models/folders";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -36,15 +39,26 @@ app.on("activate", () => {
     }
 });
 
-ipcMain.on("save-bookmark", async () => {
-    await saveBookmark("testing title", "testing url").then((bookmark) => {
-        console.log("bookmark saved!", bookmark);
-    });
-});
+ipcMain.on(
+    "save-bookmark",
+    async (
+        _,
+        title: string,
+        url: string,
+        description: string,
+        folderId: number
+    ) => {
+        await saveBookmark(title, url, description, folderId).then(
+            (bookmark) => {
+                console.log("bookmark saved!", bookmark);
+            }
+        );
+    }
+);
 ipcMain.on("get-all-bookmarks", async () => {
     await getAllBookmarks().then((bookmarks) => {
         console.log("bookmarks fetched!", bookmarks);
-        console.log(JSON.stringify(bookmarks, null, 2));
+        return JSON.stringify(bookmarks);
     });
 });
 ipcMain.on("create-folder", async (_, name: string, parentFolderId: number) => {
@@ -52,9 +66,11 @@ ipcMain.on("create-folder", async (_, name: string, parentFolderId: number) => {
         console.log("bookmark created!", folder);
     });
 });
-ipcMain.on("get-all-folders", async () => {
-    await getAllFolders().then((folders) => {
+ipcMain.handle("get-all-folders-with-bookmarks", async () => {
+    let data;
+    await getAllFoldersWithBookmarks().then((folders) => {
         console.log("folders fetched!", folders);
-        console.log(JSON.stringify(folders, null, 2));
+        data = JSON.stringify(folders, null, 2);
     });
+    return data;
 });

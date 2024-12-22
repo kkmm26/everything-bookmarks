@@ -1,7 +1,7 @@
 import { database } from "../database";
 import { DataTypes } from "sequelize";
+import { Bookmarks } from "./bookmarks";
 
-// Define Folders model
 export const Folders = database.define(
     "Folders",
     {
@@ -22,15 +22,16 @@ export const Folders = database.define(
     { freezeTableName: true }
 );
 
-
-
 Folders.hasMany(Folders, {
     foreignKey: "parentFolderId",
-    as: "childFolders", 
+    as: "childFolders",
 });
+Folders.hasMany(Bookmarks, { foreignKey: "folderId", as: "bookmarks" });
 
-
-export const createFolder = async (name: string, parentFolderId: number | null = null) => {
+export const createFolder = async (
+    name: string,
+    parentFolderId: number | null = null
+) => {
     try {
         const folder = await Folders.create({ name, parentFolderId });
         return folder;
@@ -39,12 +40,16 @@ export const createFolder = async (name: string, parentFolderId: number | null =
     }
 };
 
-
-export const getAllFolders = async () => {
+export const getAllFoldersWithBookmarks = async () => {
     try {
         const folders = await Folders.findAll({
             include: [
-                { model: Folders, as: "childFolders" }, 
+                {
+                    model: Folders,
+                    as: "childFolders",
+                    include: [{ model: Bookmarks, as: "bookmarks" }],
+                },
+                { model: Bookmarks, as: "bookmarks" },
             ],
         });
         return folders;

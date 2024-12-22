@@ -21,14 +21,28 @@ export const Bookmarks = database.define(
             type: DataTypes.STRING,
             allowNull: true,
         },
+        folderId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     },
     { freezeTableName: true }
 );
 
-export const saveBookmark = async (title: string, url: string) => {
+export const saveBookmark = async (
+    title: string,
+    url: string,
+    description: string,
+    folderId: number
+) => {
     try {
-        const bookmark = await Bookmarks.create({ title, url });
-        return bookmark
+        const bookmark = await Bookmarks.create({
+            title,
+            url,
+            description,
+            folderId,
+        });
+        return bookmark;
     } catch (error) {
         console.error("Error saving bookmark:", error);
     }
@@ -37,7 +51,7 @@ export const saveBookmark = async (title: string, url: string) => {
 export const getAllBookmarks = async () => {
     try {
         const bookmarks = await Bookmarks.findAll();
-        return bookmarks
+        return bookmarks;
     } catch (error) {
         console.log("Error getting bookmarks:", error);
     }
