@@ -1,8 +1,9 @@
 import React from "react";
 import { Button } from "@mui/base";
 import SearchInput from "../ui/SearchInput";
-import { FolderPlus, Link } from "react-feather";
+import { CreateNewFolderSharp, AddLinkSharp } from "@mui/icons-material";
 import FolderView from "./FolderView";
+import { pink, red } from "@mui/material/colors";
 
 function Sidebar() {
     function handleLinkClicked() {
@@ -22,15 +23,15 @@ function Sidebar() {
             <div className="flex justify-center align-middle">
                 <Button
                     onClick={handleLinkClicked}
-                    className="group hover:bg-rose-500 rounded px-2"
+                    className="group hover:bg-pink-100 rounded px-2"
                 >
-                    <Link className="text-rose-500 group-hover:text-white" />
-                </Button>
+                    <AddLinkSharp sx={{color: pink[500], fontSize: '1.6rem'}}/>
+                    </Button>
                 <Button
                     onClick={handleFolderClicked}
-                    className="group hover:bg-rose-500 rounded px-2"
+                    className="group hover:bg-pink-100 rounded px-2"
                 >
-                    <FolderPlus className="text-rose-500 group-hover:text-white" />
+                    <CreateNewFolderSharp sx={{color: pink[500], fontSize: '1.6rem'}} />
                 </Button>
                 <SearchInput />
             </div>

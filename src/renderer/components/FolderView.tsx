@@ -10,7 +10,6 @@ import { FolderSharp, LinkSharp } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { pink } from "@mui/material/colors";
 
-
 function CustomLabel({ icon: Icon, numOfChildren, children, ...other }: any) {
     return (
         <TreeItem2Label
