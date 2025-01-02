@@ -5,9 +5,13 @@ import { FolderPlus, Link } from "react-feather";
 import FolderView from "./FolderView";
 
 function Sidebar() {
-
     function handleLinkClicked() {
-        return
+        window.api.saveBookmark("bm 2", "url 2", "des 2", 2)
+        return;
+    }
+    function handleFolderClicked() {
+        window.api.createFolder("New Folder", 1);
+        return;
     }
 
     return (
@@ -17,15 +21,16 @@ function Sidebar() {
             </h1>
             <div className="flex justify-center align-middle">
                 <Button
-                onClick={handleLinkClicked}
+                    onClick={handleLinkClicked}
                     className="group hover:bg-rose-500 rounded px-2"
                 >
                     <Link className="text-rose-500 group-hover:text-white" />
                 </Button>
-                <Button className="group hover:bg-rose-500 rounded px-2">
-                    <FolderPlus
-                        className="text-rose-500 group-hover:text-white"
-                    />
+                <Button
+                    onClick={handleFolderClicked}
+                    className="group hover:bg-rose-500 rounded px-2"
+                >
+                    <FolderPlus className="text-rose-500 group-hover:text-white" />
                 </Button>
                 <SearchInput />
             </div>
