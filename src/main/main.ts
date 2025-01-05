@@ -61,11 +61,17 @@ ipcMain.on("get-all-bookmarks", async () => {
         return JSON.stringify(bookmarks);
     });
 });
-ipcMain.on("create-folder", async (_, name: string, parentFolderId: number) => {
-    await createFolder(name, parentFolderId).then((folder) => {
-        console.log("bookmark created!", folder);
-    });
-});
+ipcMain.handle(
+    "create-folder",
+    async (_, name: string, parentFolderId: number) => {
+        let res
+        await createFolder(name, parentFolderId).then((folder) => {
+            console.log("bookmark created!", folder);
+            res = JSON.stringify(folder, null, 2);
+        });
+        return res;
+    }
+);
 ipcMain.handle("get-all-folders-with-bookmarks", async () => {
     let data;
     await getAllFoldersWithBookmarks().then((folders) => {

@@ -1,14 +1,15 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
 import { RichTreeView } from "@mui/x-tree-view/RichTreeView";
 import { TreeItem2, TreeItem2Label } from "@mui/x-tree-view/TreeItem2";
 import { useTreeItem2 } from "@mui/x-tree-view/useTreeItem2";
 import { transformFolders } from "../utils";
 import { FolderSharp, LinkSharp } from "@mui/icons-material";
+import { useTreeViewApiRef } from "@mui/x-tree-view/hooks";
 import Box from "@mui/material/Box";
 import { pink } from "@mui/material/colors";
+import { DataContext } from "../providers/DataProvider";
 
 function CustomLabel({ icon: Icon, numOfChildren, children, ...other }: any) {
     return (
@@ -72,17 +73,24 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
     );
 });
 
-export default function FolderView() {
-    const [items, setItems] = React.useState([]);
-
+export default function FolderView({
+    lastClickedFolder,
+    setLastClickedFolder,
+}: any) {
+    
+    const { items, fetchFolders } = React.useContext(DataContext);
     React.useEffect(() => {
-        async function fetchFolders() {
-            const res = await window.api.getAllFoldersWithBookmarks();
-            const data = JSON.parse(res);
-            setItems(transformFolders(data));
-        }
         fetchFolders();
     }, []);
+
+    const apiRef = useTreeViewApiRef();
+    const handleSelectedItemsChange = ({ event, itemId }: any) => {
+        if (itemId == null) {
+            setLastClickedFolder(null);
+        } else {
+            setLastClickedFolder(apiRef.current.getItem(itemId));
+        }
+    };
 
     return (
         <RichTreeView
@@ -90,6 +98,9 @@ export default function FolderView() {
             slots={{
                 item: CustomTreeItem,
             }}
+            apiRef={apiRef}
+            selectedItems={lastClickedFolder?.id ?? null}
+            onSelectedItemsChange={handleSelectedItemsChange}
         />
     );
 }

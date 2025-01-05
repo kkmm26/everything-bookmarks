@@ -1,11 +1,11 @@
 import React from "react";
 import { Input } from "@mui/base";
-import { Search } from "react-feather";
+import { SearchSharp } from "@mui/icons-material";
 
 function SearchInput() {
     return (
         <div className="relative ml-2">
-            <Search className="absolute left-1 opacity-30 top-[50%] translate-y-[-50%] size-[20px]" />
+            <SearchSharp className="absolute left-1 opacity-30 top-[50%] translate-y-[-50%] size-[20px]" />
             <Input
                 placeholder="Search Everything"
                 slotProps={{

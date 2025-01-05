@@ -13,7 +13,7 @@ const api = {
         ipcRenderer.send("get-all-bookmarks");
     },
     createFolder: (name: string, parentFolderId: number | null = null) => {
-        ipcRenderer.send("create-folder", name, parentFolderId);
+        return ipcRenderer.invoke("create-folder", name, parentFolderId);
     },
     getAllFoldersWithBookmarks: async ()  => {
         return await ipcRenderer.invoke("get-all-folders-with-bookmarks");

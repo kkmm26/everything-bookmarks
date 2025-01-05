@@ -19,6 +19,7 @@ export function transformFolders(folders, processed = new Set()) {
                     ...(folder.childFolders ? transformFolders(folder.childFolders, processed) : []),
                 ],
                 type: "folder",
+                folderId: folder.folderId
             });
         }
     });

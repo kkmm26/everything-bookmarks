@@ -3,16 +3,23 @@ import { Button } from "@mui/base";
 import SearchInput from "../ui/SearchInput";
 import { CreateNewFolderSharp, AddLinkSharp } from "@mui/icons-material";
 import FolderView from "./FolderView";
-import { pink, red } from "@mui/material/colors";
+import { pink } from "@mui/material/colors";
+import { DataContext } from "../providers/DataProvider";
 
 function Sidebar() {
-    function handleLinkClicked() {
-        window.api.saveBookmark("bm 2", "url 2", "des 2", 2)
+    const [lastClickedFolder, setLastClickedFolder] = React.useState(null);
+
+    const { addNewFolder } = React.useContext(DataContext);
+
+    function handleAddLinkClicked() {
         return;
     }
-    function handleFolderClicked() {
-        window.api.createFolder("New Folder", 1);
-        return;
+    function handleAddFolderClicked() {
+        if (lastClickedFolder && lastClickedFolder.type === "folder") {
+            addNewFolder("New Folder", lastClickedFolder.folderId);
+        } else {
+            addNewFolder("New Folder");
+        }
     }
 
     return (
@@ -22,21 +29,28 @@ function Sidebar() {
             </h1>
             <div className="flex justify-center align-middle">
                 <Button
-                    onClick={handleLinkClicked}
+                    onClick={handleAddLinkClicked}
                     className="group hover:bg-pink-100 rounded px-2"
                 >
-                    <AddLinkSharp sx={{color: pink[500], fontSize: '1.6rem'}}/>
-                    </Button>
+                    <AddLinkSharp
+                        sx={{ color: pink[500], fontSize: "1.6rem" }}
+                    />
+                </Button>
                 <Button
-                    onClick={handleFolderClicked}
+                    onClick={handleAddFolderClicked}
                     className="group hover:bg-pink-100 rounded px-2"
                 >
-                    <CreateNewFolderSharp sx={{color: pink[500], fontSize: '1.6rem'}} />
+                    <CreateNewFolderSharp
+                        sx={{ color: pink[500], fontSize: "1.6rem" }}
+                    />
                 </Button>
                 <SearchInput />
             </div>
             <div className="mt-4">
-                <FolderView />
+                <FolderView
+                    lastClickedFolder={lastClickedFolder}
+                    setLastClickedFolder={setLastClickedFolder}
+                />
             </div>
         </section>
     );
