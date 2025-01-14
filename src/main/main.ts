@@ -78,5 +78,6 @@ ipcMain.handle("get-all-folders-with-bookmarks", async () => {
         console.log("folders fetched!", folders);
         data = JSON.stringify(folders, null, 2);
     });
+    console.log(data);
     return data;
 });

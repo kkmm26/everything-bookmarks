@@ -1,27 +1,53 @@
-export function transformBookmarks(bookmarks) {
+function transformBookmarks(bookmarks) {
     return bookmarks.map((bookmark) => ({
         id: bookmark.bookmarkId,
         label: bookmark.title,
         type: "bookmark",
     }));
-
 }
-export function transformFolders(folders, processed = new Set()) {
-    const newFolders = [];
+
+export function buildFolderTree(folders) {
+    const folderMap = new Map();
+
     folders.forEach((folder) => {
-        if (!processed.has(folder.folderId)) {
-            processed.add(folder.folderId);
-            newFolders.push({
-                id: `${folder.folderId}-${crypto.randomUUID()}`,
-                label: folder.name,
-                children: [
-                    ...transformBookmarks(folder.bookmarks || []),
-                    ...(folder.childFolders ? transformFolders(folder.childFolders, processed) : []),
-                ],
-                type: "folder",
-                folderId: folder.folderId
-            });
+        folderMap.set(folder.folderId, { ...folder, childFolders: [] });
+    });
+
+    const rootFolders = [];
+
+    folders.forEach((folder) => {
+        if (folder.parentFolderId === null) {
+            rootFolders.push(folderMap.get(folder.folderId));
+        } else {
+            const parentFolder = folderMap.get(folder.parentFolderId);
+            if (parentFolder) {
+                parentFolder.childFolders.push(folderMap.get(folder.folderId));
+            }
         }
     });
-    return newFolders;
+
+    return rootFolders;
+}
+
+export function transformFolders(folders) {
+    const transformedFolders = [];
+
+    folders.forEach((folder) => {
+        const transformedChildren = folder.childFolders
+            ? transformFolders(folder.childFolders)
+            : [];
+
+        transformedFolders.push({
+            id: folder.folderId,
+            label: folder.name,
+            children: [
+                ...transformBookmarks(folder.bookmarks || []),
+                ...transformedChildren,
+            ],
+            type: "folder",
+            folderId: folder.folderId,
+        });
+    });
+
+    return transformedFolders;
 }

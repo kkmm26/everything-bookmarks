@@ -1,5 +1,5 @@
 import React from "react";
-import { transformFolders } from "../utils";
+import { buildFolderTree, transformFolders } from "../utils";
 
 export const DataContext = React.createContext(undefined);
 
@@ -10,7 +10,8 @@ export function DataProvider({ children }: any) {
         try {
             const res = await window.api.getAllFoldersWithBookmarks();
             const data = JSON.parse(res);
-            setItems(transformFolders(data));
+            console.log(data);
+            setItems(transformFolders(buildFolderTree(data)));
         } catch (error) {
             console.error("Error fetching folders:", error);
         }

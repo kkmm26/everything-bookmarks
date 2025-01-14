@@ -77,20 +77,16 @@ export default function FolderView({
     lastClickedFolder,
     setLastClickedFolder,
 }: any) {
-    
     const { items, fetchFolders } = React.useContext(DataContext);
     React.useEffect(() => {
         fetchFolders();
     }, []);
 
     const apiRef = useTreeViewApiRef();
-    const handleSelectedItemsChange = ({ event, itemId }: any) => {
-        if (itemId == null) {
-            setLastClickedFolder(null);
-        } else {
-            setLastClickedFolder(apiRef.current.getItem(itemId));
-        }
-    };
+    function handleItemSelected(itemId: any) {
+        console.log(itemId);
+        setLastClickedFolder(apiRef.current.getItem(itemId));
+    }
 
     return (
         <RichTreeView
@@ -98,9 +94,8 @@ export default function FolderView({
             slots={{
                 item: CustomTreeItem,
             }}
+            onItemClick={(event, itemId) => handleItemSelected(itemId)}
             apiRef={apiRef}
-            selectedItems={lastClickedFolder?.id ?? null}
-            onSelectedItemsChange={handleSelectedItemsChange}
         />
     );
 }
