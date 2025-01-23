@@ -73,13 +73,11 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
     );
 });
 
-export default function FolderView({
-    lastClickedFolder,
-    setLastClickedFolder,
-}: any) {
-    const { items, fetchFolders } = React.useContext(DataContext);
+export default function FolderView({ setLastClickedFolder }: any) {
+    const { items, fetchFromDb } = React.useContext(DataContext);
+    
     React.useEffect(() => {
-        fetchFolders();
+        fetchFromDb();
     }, []);
 
     const apiRef = useTreeViewApiRef();
