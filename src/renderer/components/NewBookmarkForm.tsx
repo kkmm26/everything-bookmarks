@@ -1,24 +1,29 @@
 import React from "react";
 import { Button, FormControl, Input, useFormControlContext } from "@mui/base";
 import clsx from "clsx";
+import { DataContext } from "../providers/DataProvider";
 
-function NewBookmarkForm() {
+function NewBookmarkForm({ lastClickedFolder }: any) {
     const [bookmark, setBookmark] = React.useState({
         title: "",
         url: "",
         description: "",
     });
+    const { saveNewBookmark } = React.useContext(DataContext);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e: any) {
         e.preventDefault();
-        if (!bookmark.title || !bookmark.url) {
-            return;
-        }
-        console.log(bookmark);
+        console.log("lastClickedFolder", lastClickedFolder);
+        await saveNewBookmark(
+            bookmark.title,
+            bookmark.url,
+            bookmark.description,
+            lastClickedFolder.folderId
+        );
     }
 
     return (
-        <form action="" className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} action="" className="flex flex-col gap-3">
             <FormControl
                 defaultValue=""
                 className="flex items-center justify-between gap-2"
@@ -87,7 +92,6 @@ function NewBookmarkForm() {
                 />
             </FormControl>
             <Button
-                onSubmit={handleSubmit}
                 type="submit"
                 className="mx-auto bg-rose-400 hover:bg-rose-500 px-3 py-1 rounded text-white"
             >

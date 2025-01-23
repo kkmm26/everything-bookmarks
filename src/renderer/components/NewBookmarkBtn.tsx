@@ -8,7 +8,7 @@ import { AddLinkSharp, CloseSharp } from "@mui/icons-material";
 import { grey, pink } from "@mui/material/colors";
 import NewBookmarkForm from "./NewBookmarkForm";
 
-export default function NewBookmarkBtn() {
+export default function NewBookmarkBtn({ lastClickedFolder }: any) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = (event: React.MouseEvent, reason?: string) => {
@@ -40,14 +40,14 @@ export default function NewBookmarkBtn() {
                     >
                         <CloseSharp />
                     </Button>
-                    <NewBookmarkForm />
+                    <NewBookmarkForm lastClickedFolder={lastClickedFolder} />
                 </ModalContent>
             </Modal>
         </div>
     );
 }
 
-const Backdrop = React.forwardRef((props, ref) => {
+const Backdrop = React.forwardRef((props: any, ref) => {
     const { open, className, ...other } = props;
     return (
         <div

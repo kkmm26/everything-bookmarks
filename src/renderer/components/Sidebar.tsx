@@ -6,7 +6,7 @@ import FolderView from "./FolderView";
 import { pink } from "@mui/material/colors";
 import { DataContext } from "../providers/DataProvider";
 import NewBookmarkBtn from "./NewBookmarkBtn";
-import CreateNewFolderBtn from "./CreateNewFolderBtn";
+import NewFolderBtn from "./NewFolderBtn";
 
 function Sidebar() {
     const [lastClickedFolder, setLastClickedFolder] = React.useState(null);
@@ -18,8 +18,8 @@ function Sidebar() {
                 Everything-Bookmarks
             </h1>
             <div className="flex justify-center align-middle h-[100%]">
-                <NewBookmarkBtn />
-                <CreateNewFolderBtn lastClickedFolder={lastClickedFolder} />
+                <NewBookmarkBtn lastClickedFolder={lastClickedFolder}/>
+                <NewFolderBtn lastClickedFolder={lastClickedFolder} />
                 <SearchInput />
             </div>
             <div className="mt-4">

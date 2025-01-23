@@ -1,8 +1,9 @@
 function transformBookmarks(bookmarks) {
     return bookmarks.map((bookmark) => ({
-        id: bookmark.bookmarkId,
+        id: `bookmark-${bookmark.bookmarkId}`,
         label: bookmark.title,
         type: "bookmark",
+        bookmarkId: bookmark.bookmarkId,
     }));
 }
 
@@ -38,7 +39,7 @@ export function transformFolders(folders) {
             : [];
 
         transformedFolders.push({
-            id: folder.folderId,
+            id: `folder-${folder.folderId}`,
             label: folder.name,
             children: [
                 ...transformBookmarks(folder.bookmarks || []),

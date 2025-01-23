@@ -4,7 +4,7 @@ import React from "react";
 import { DataContext } from "../providers/DataProvider";
 import { pink } from "@mui/material/colors";
 
-function CreateNewFolderBtn({ lastClickedFolder }: any) {
+function NewFolderBtn({ lastClickedFolder }: any) {
     const { createNewFolder } = React.useContext(DataContext);
 
     function handleAddFolderClicked() {
@@ -27,4 +27,4 @@ function CreateNewFolderBtn({ lastClickedFolder }: any) {
         </div>
     );
 }
-export default CreateNewFolderBtn;
+export default NewFolderBtn;

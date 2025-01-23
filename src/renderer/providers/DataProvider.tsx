@@ -37,7 +37,7 @@ export function DataProvider({ children }: any) {
         }
     };
 
-    const contextValue = { items, fetchFromDb, createNewFolder };
+    const contextValue = { items, fetchFromDb, createNewFolder, saveNewBookmark };
 
     return (
         <DataContext.Provider value={contextValue}>
